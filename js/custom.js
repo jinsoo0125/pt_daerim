@@ -1,30 +1,32 @@
 $(function () {
-
     $('.main_container').fullpage({
         anchors: ['intro', 'service', 'center', 'news', 'footer'],
         scrollOverflow: false,
         fixedElements: '.header, .menu_lnk',
+        responsiveWidth: 1200,
 
         afterLoad: function (o, ds) {
             let idx = ds.index;
 
-            $('.section').removeClass('on');
-            $('.section').eq(idx).addClass('on');
+            if ($(window).width() > 1200) {
+                $('.section').removeClass('on');
+                $('.section').eq(idx).addClass('on');
 
-            $('.menu_lnk ul li').removeClass('on');
-            $('.menu_lnk ul li').eq(idx).addClass('on');
+                $('.menu_lnk ul li').removeClass('on');
+                $('.menu_lnk ul li').eq(idx).addClass('on');
 
-            if (idx == 2 || idx == 3) {
-                $('.header').addClass('on');
-                $('.menu_lnk').addClass('on');
-            } else {
-                $('.header').removeClass('on');
-                $('.menu_lnk').removeClass('on');
+                if (idx == 2 || idx == 3) {
+                    $('.header').addClass('on');
+                    $('.menu_lnk').addClass('on');
+                } else {
+                    $('.header').removeClass('on');
+                    $('.menu_lnk').removeClass('on');
+                }
             }
         }
     });
-
 });
+
 
 
 $(function () {
@@ -122,3 +124,30 @@ $(function () {
         mcs2.slideToLoop(idx)
     });
 })
+
+
+// 반응형
+
+$(function () {
+
+
+    $(' .header .mbtn ').on('click', function () {
+        $('.header .gnb').toggleClass('on');
+    })
+
+    $('.header .gnb>ul>li>a').on('click', function (e) {
+        if ($('.header .gnb').hasClass('on')) {
+            e.preventDefault();
+            $(this).next().stop().slideToggle();
+            $(this).parent().siblings().find('ul').stop().slideUp();
+        }
+
+    })
+
+
+    $(window).on('resize', function () {
+        $('.header .gnb').removeClass('on')
+        $('.header .gnb>ul>li ul').removeAttr('style')
+    })
+})
+
